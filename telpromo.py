@@ -83,6 +83,7 @@ async def escutar_mensagens(event):
 async def main():
     await client.start()
     await client.get_dialogs()
+    client.add_event_handler(escutar_mensagens, events.NewMessage())
     await client.run_until_disconnected()
 
 if __name__ == "__main__":
