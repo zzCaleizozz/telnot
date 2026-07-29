@@ -70,7 +70,7 @@ async def escutar_mensagens(event):
     nome_canal = "Mensagens Salvas" if event.is_private else (event.chat.title 
     if event.chat else f"Canal ID {event.chat_id}")
 
-    rr = re.search(fr'(?<!\S)({sep})(?!\S)', texto_mensagem)
+    rr = any(palavra in texto_mensagem for palavra in OQUE_EU_QUERO)
     if rr:
         if filtros(texto_mensagem):
             return
