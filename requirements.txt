@@ -1,0 +1,3 @@
+telethon
+pushbullet.py
+python-dotenv
