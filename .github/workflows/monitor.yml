@@ -1,0 +1,38 @@
+name: Monitor 24h Telegram
+
+on:
+  schedule:
+    - cron: '30 */5 * * *'  # Roda a cada 5 horas
+  workflow_dispatch:        # Permite rodar manualmente no botão
+
+concurrency:
+  group: monitor-telegram
+  cancel-in-progress: true
+
+jobs:
+  rodar-robo:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Copiar os arquivos do repositório
+      uses: actions/checkout@v4
+
+    - name: Instalar o Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.13'
+
+    - name: Instalar bibliotecas
+      run: |
+        python -m pip install --upgrade pip
+        pip install telethon pushbullet.py
+
+    - name: Executar o Monitor
+      env:
+        API_ID: ${{ secrets.API_ID }}
+        API_HASH: ${{ secrets.API_HASH }}
+        API_KEY_PUSHBULLET: ${{ secrets.PUSHBULLET_API_KEY }}
+        TELEGRAM_SESSION: ${{ secrets.TELEGRAM_SESSION }}
+        CANAIS_IDS: ${{ secrets.CANAIS_IDS }}
+      run: |
+        python telpromo.py
