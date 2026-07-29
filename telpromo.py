@@ -16,7 +16,7 @@ COOLDOWN = 1800
 OQUE_EU_QUERO= ['galaxy', 'buds', 'core', '50%']
 
 CANAIS_RAW = os.environ.get("CANAIS_IDS", "")
-CANAIS = [int(x) if x.strip().lstrip('-').isdigit() else x.strip() for x in CANAIS_RAW.split() if x.strip()]
+CANAIS = [int(x.strip()) for x in CANAIS_RAW.split(",") if x.strip()]
 
 sep = '|'.join(OQUE_EU_QUERO)
 pb = Pushbullet(API_KEY_PUSHBULLET)
