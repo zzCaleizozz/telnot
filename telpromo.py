@@ -1,4 +1,4 @@
-import re, os, time, asyncio
+import re, os, time, asyncio, unicodedata
 from telethon import TelegramClient, events
 from telethon.sessions import StringSession
 from pushbullet import Pushbullet
@@ -13,7 +13,7 @@ TELEGRAM_SESSION = os.environ.get("TELEGRAM_SESSION")
 
 ARQUIVO_HISTORICO = "historico_mensagens.txt"
 COOLDOWN = 1800
-OQUE_EU_QUERO= ['sofa retratil', '50%']
+OQUE_EU_QUERO= ['galaxy', 'buds', 'core', '50%']
 
 CANAIS_RAW = os.environ.get("CANAIS_IDS", "")
 CANAIS = [int(x.strip()) for x in CANAIS_RAW.split(",") if x.strip()]
@@ -55,15 +55,18 @@ def filtros(text):
 
     return False
 
+def remover_acentos(texto):
+    nfkd = unicodedata.normalize('NFD', texto)
+    return "".join([c for c in nfkd if not unicodedata.combining(c)])
 
 
-@client.on(events.NewMessage(chats=CANAIS))
 async def escutar_mensagens(event):
+
     texto_original = event.text if event.text else ""
     if not texto_original.strip():
         return
 
-    texto_mensagem = texto_original.lower()
+    texto_mensagem = remover_acentos(texto_original.lower())
     nome_canal = "Mensagens Salvas" if event.is_private else (event.chat.title 
     if event.chat else f"Canal ID {event.chat_id}")
 
