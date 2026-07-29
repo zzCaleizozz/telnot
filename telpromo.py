@@ -1,6 +1,10 @@
 import re, os, time, asyncio
-from telethon import TelegramClient, events, StringSession
+from telethon import TelegramClient, events
+from telethon.sessions import StringSession
 from pushbullet import Pushbullet
+
+
+
 API_ID = int(os.environ.get("API_ID"))
 API_HASH = os.environ.get("API_HASH")
 API_KEY_PUSHBULLET = os.environ.get("API_KEY_PUSHBULLET")
@@ -12,7 +16,7 @@ COOLDOWN = 1800
 OQUE_EU_QUERO= ['galaxy', 'buds', 'core', '50%']
 
 CANAIS_RAW = os.environ.get("CANAIS_IDS", "")
-CANAIS = [int(x) if x.strip.lstrip('-').isdigit() else x.strip() for x in CANAIS_RAW.split() if x.strip()]
+CANAIS = [int(x) if x.strip().lstrip('-').isdigit() else x.strip() for x in CANAIS_RAW.split() if x.strip()]
 
 sep = '|'.join(OQUE_EU_QUERO)
 pb = Pushbullet(API_KEY_PUSHBULLET)
@@ -75,13 +79,6 @@ async def escutar_mensagens(event):
         except Exception as e:
             print(f"Erro ao enviar notificação para o celular: {e}")
 
-async def main():
-    await client.start()
-    print("Bot iniciado com sucesso!")
-    await client.run_until_disconnected()
 
-if __name__ == "__main__":
-    try:
-        client.loop.run_until_complete(main())
-    except Exception as e:
-        time.sleep(10)
+with client:
+    client.run_until_disconnected()
