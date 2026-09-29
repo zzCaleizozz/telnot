@@ -13,7 +13,7 @@ TELEGRAM_SESSION = os.environ.get("TELEGRAM_SESSION")
 
 ARQUIVO_HISTORICO = "historico_mensagens.txt"
 COOLDOWN = 1800
-OQUE_EU_QUERO= ['tomada inteligente', "iclamper"]
+OQUE_EU_QUERO= ['tomada inteligente', "iclamper", "aa"]
 
 CANAIS_RAW = os.environ.get("CANAIS_IDS", "")
 CANAIS = [int(x.strip()) for x in CANAIS_RAW.split(",") if x.strip()]
