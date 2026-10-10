@@ -83,7 +83,7 @@ async def escutar_mensagens(event):
             return
         
         try:
-            motivo = "Palavra-chave" if achou_palavras else "Desconto >= 20%"
+            motivo = "Boa" if achou_palavras else "Desconto >= 20%"
             titulo = f"Promoção ({motivo}) no {nome_canal}"
             corpo = texto_original[:250] + "..." if len(texto_original) > 250 else texto_original
             pb.push_note(titulo, corpo)
